@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Songs Homepage - Welcome to My Music Store</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to My Music Store</h1>
+</header>
+<main>
+    <h2>Choose a song:</h2>
+    <!-- Display radio buttons for each song,
+            the value should be the trackId
+            and the displayed text should be Title: <songTitle>, Genre:<genre>, Release Year: <releaseYear> -->
+    <form th:method="POST" th:action="@{/artist/artistsList}">
+        <div th:each="song : ${songList}">
+            <input type="radio" name="songRadio" th:id="${song.id}" th:value="${song.id}">
+            <label th:for="${song.getId()}"
+                   th:text="'Title: ' + ${song.getTitle()} + ', Genre: ' + ${song.getGenre()} + ', Release Year: ' + ${song.getReleaseYear()} + ' Album: ' + ${song.album.name}"></label>
+            <br>
+        </div>
+        <br>
+        <input type='submit' value='Submit'>
+    </form>
+
+    <div style="display: flex;flex-direction: column;position: absolute;right: 10px;top: 10px;border: 1px solid black;padding: 10px;">
+        <div th:each="song : ${songList}" >
+            <span th:text="${song.title}">Event Name</span> - 
+            <span th:text="${song.genre}">Event Score</span>                    <form th:action="@{'/songs/edit/{id}' (id=${song.id})}"
+            th:method="PUT" style="display: inline-block;">
+            <button type="submit">Edit</button>
+            </form>
+            <form th:action="@{'/songs/delete/{id}' (id=${song.id})}"
+            th:method="DELETE" style="display: inline-block;">
+            <button type="submit">Delete</button>
+            </form>
+        </div>
+        <a href="/songs/add-form">Add Song</a>
+    </div>
+   
+</main>
+</body>
+</html>
